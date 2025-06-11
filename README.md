@@ -1,0 +1,2 @@
+# Innowise.JavaCore
+JavaCoreTasks
