@@ -1,12 +1,8 @@
 package org.innowise.internship.javacore.customlinkedlist.customlinkedlist;
 
-//hash & equals (?)
-
-
 public class LinkedList<T>{
-    private Node<T> head = null; //?
+    private Node<T> head = null;
     private int size = 0;
-
 
     //1. size()
     public int size() {
@@ -14,7 +10,6 @@ public class LinkedList<T>{
     }
 
     //2. addFirst()
-    //ask about if - return / if\else
     public void addFirst(T element) {
         Node<T> newNode = new Node<>(element);
 
@@ -36,11 +31,9 @@ public class LinkedList<T>{
             Node<T> lastNode = this.getLastNode();
             lastNode.setNext(newNode);
         }
-        //многопоточность? should I control it in this task
         ++size;
     }
 
-    //helper
     private Node<T> getLastNode() {
         if (head == null)
             return null;
@@ -67,7 +60,6 @@ public class LinkedList<T>{
             return;
         }
 
-        //can be not null
         Node<T> current = getNode(index-1);
         Node<T> newNode = new Node<>(element);
 
@@ -78,27 +70,19 @@ public class LinkedList<T>{
 
     //5. getFirst()
     public T getFirst() {
-        if (head == null)
-            return null;
-
-        return this.head.getItem();
+        return (head == null) ? null : this.head.getItem();
     }
 
     //6. getLast()
     public T getLast() {
-        if (head == null)
-            return null;
-        //no //or just return?
-        return this.getLastNode().getItem();
+        return (head == null) ? null : this.getLastNode().getItem();
     }
 
     //7. get(index)
     public T get(int index) {
-        //or check firstly //but anyway getNode checks index...
         return getNode(index).getItem();
     }
 
-    //helper ?
     private Node<T> getNode(int index){
         if (index<0 || index>=this.size)
             throw new IndexOutOfBoundsException();
@@ -120,7 +104,7 @@ public class LinkedList<T>{
     //8. removeFirst()
     public void removeFirst(){
         if (head == null)
-            return; //or Exception?
+            return;
 
         if (head.getNext() == null){
             head = null;
@@ -148,7 +132,6 @@ public class LinkedList<T>{
 
     //10. remove(index)
     public void remove(int index){
-    //??????????????????
         if (index<0 || index>=this.size)
             throw new IndexOutOfBoundsException();
 
