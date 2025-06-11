@@ -2,7 +2,7 @@ package org.innowise.internship.javacore.customlinkedlist.customlinkedlist;
 
 public class Node<T> {
     private final T item;
-    private Node<T> next = null;
+    private Node<T> next;
 
     public Node(T item) {
         this.item = item;
