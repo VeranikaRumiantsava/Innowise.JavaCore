@@ -214,11 +214,12 @@ public class LinkedListTest {
         list.addFirst("A");
         list.addFirst("B");
         list.addFirst("C");
+        list.addFirst("D");
 
-        list.remove(1);
+        list.remove(2);
 
-        assertEquals(2, list.size());
-        assertEquals("A", list.get(1));
+        assertEquals(3, list.size());
+        assertEquals("A", list.get(2));
     }
 
     @Test

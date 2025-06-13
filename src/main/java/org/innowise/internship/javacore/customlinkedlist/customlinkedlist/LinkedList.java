@@ -2,6 +2,7 @@ package org.innowise.internship.javacore.customlinkedlist.customlinkedlist;
 
 public class LinkedList<T>{
     private Node<T> head = null;
+    private Node<T> tail = null;
     private int size = 0;
 
     //1. size()
@@ -13,36 +14,30 @@ public class LinkedList<T>{
     public void addFirst(T element) {
         Node<T> newNode = new Node<>(element);
 
-        if (head != null) {
-            newNode.setNext(head);
+        if (head == null) {
+            head = tail = newNode;
         }
-        head = newNode;
+        else {
+            head.setPrev(newNode);
+            newNode.setNext(head);
+            head = newNode;
+        }
         ++size;
     }
 
     //3. addLast()
     public void addLast(T element) {
-
         Node<T> newNode = new Node<>(element);
-        if (head == null) {
-            head = newNode;
+
+        if (tail == null) {
+            head = tail = newNode;
         }
         else {
-            Node<T> lastNode = this.getLastNode();
-            lastNode.setNext(newNode);
+            tail.setNext(newNode);
+            newNode.setPrev(tail);
+            tail = newNode;
         }
         ++size;
-    }
-
-    private Node<T> getLastNode() {
-        if (head == null)
-            return null;
-
-        Node<T> currentNode = head;
-        while (currentNode.getNext() != null) {
-            currentNode = currentNode.getNext();
-        }
-        return currentNode;
     }
 
     //4. add()
@@ -64,6 +59,7 @@ public class LinkedList<T>{
         Node<T> newNode = new Node<>(element);
 
         newNode.setNext(current.getNext());
+        newNode.setPrev(current);
         current.setNext(newNode);
         ++size;
     }
@@ -75,10 +71,11 @@ public class LinkedList<T>{
 
     //6. getLast()
     public T getLast() {
-        return (head == null) ? null : this.getLastNode().getItem();
+        return (head == null) ? null : this.tail.getItem();
     }
 
     //7. get(index)
+    //половинить?
     public T get(int index) {
         return getNode(index).getItem();
     }
@@ -90,13 +87,26 @@ public class LinkedList<T>{
         if (index==0)
             return this.head;
 
-        Node<T> current = head;
-        int counter = 0;
+        Node<T> current;
+        int counter;
 
-        while (counter < index) {
-            current = current.getNext();
-            ++counter;
+        if (index<this.size/2){
+            counter = 0;
+            current = this.head;
+            while (counter < index) {
+                current = current.getNext();
+                ++counter;
+            }
         }
+        else {
+            counter = size-1;
+            current = this.tail;
+            while (counter > index) {
+                current = current.getPrev();
+                --counter;
+            }
+        }
+
 
         return current;
     }
@@ -108,9 +118,11 @@ public class LinkedList<T>{
 
         if (head.getNext() == null){
             head = null;
+            tail = null;
         }
         else {
             head = head.getNext();
+            head.setPrev(null);
         }
         --size;
     }
@@ -120,12 +132,13 @@ public class LinkedList<T>{
         if (head == null)
             return;
 
-        if (head.getNext()==null) {
+        if (tail.getPrev() == null){
             head = null;
+            tail = null;
         }
         else {
-            Node<T> current = getNode(this.size-2);
-            current.setNext(null);
+            tail = tail.getPrev();
+            tail.setNext(null);
         }
         --size;
     }
@@ -145,8 +158,10 @@ public class LinkedList<T>{
             return;
         }
 
-        Node<T> current = this.getNode(index-1);
-        current.setNext(current.getNext().getNext());
+        Node<T> current = this.getNode(index);
+
+        current.getPrev().setNext(current.getNext());
+        current.getNext().setPrev(current.getPrev());
         --size;
     }
 
